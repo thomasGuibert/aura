@@ -29,3 +29,20 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 	FGameplayEffectSpecHandle GameplayEffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.0f, GameplayEffectContextHandle);
 	TargetASC->ApplyGameplayEffectSpecToSelf(*GameplayEffectSpecHandle.Data.Get());
 }
+
+void AAuraEffectActor::OnOverlap(AActor* TargetActor)
+{
+	if(InstanceApplyEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
+		ApplyEffectToTarget(TargetActor, InstanceGameplayEffectClass);
+	if(DurationApplyEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
+		ApplyEffectToTarget(TargetActor, DurationGameplayEffectClass);
+}
+
+void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
+{
+	if(InstanceApplyEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
+		ApplyEffectToTarget(TargetActor, InstanceGameplayEffectClass);
+	if(DurationApplyEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
+		ApplyEffectToTarget(TargetActor, DurationGameplayEffectClass);
+}
+
